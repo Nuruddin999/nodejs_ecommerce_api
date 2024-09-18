@@ -10,6 +10,7 @@ const unknownEndpoint = require("./middleware/unKnownEndpoint");
 const { handleError } = require("./helpers/error");
 const path = require("path");
 const pool = require("./config");
+const { hashPassword } = require("./helpers/hashPassword");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) =>
 app.use(unknownEndpoint);
 app.use(handleError);
 
+
 const createUserDbAdmin = async ({ username, password, email, fullname, roles }) => {
   const { rows: user } = await pool.query(
     `INSERT INTO users(username, password, email, fullname, roles) 
@@ -39,8 +41,8 @@ const createUserDbAdmin = async ({ username, password, email, fullname, roles })
     [username, password, email, fullname, roles]
   );
 };
-
-createUserDbAdmin({username:"Silvershop",password:'Fillsilvershopp999@',email:'sg7720@gmail.com',fullname:'NGadzhiev',roles:['admin']})
+const hashedPassword = hashPassword('Fillsilvershopp999@');
+createUserDbAdmin({username:"Silvershop",password:hashedPassword,email:'sg7720@gmail.com',fullname:'NGadzhiev',roles:['admin']})
 
 
 
