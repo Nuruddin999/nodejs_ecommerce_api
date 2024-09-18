@@ -27,21 +27,15 @@ class AuthService {
   async signUp(user) {
     try {
       const { password, email, fullname, username } = user;
-      console.log('user',{...user});
       if (!email || !password || !fullname || !username) {
         throw new ErrorHandler(401, "all fields required");
       }
 
       if (validateUser(email, password)) {
-        console.log('succea valid');
         const salt = await bcrypt.genSalt();
-        console.log('salt');
         const hashedPassword = await bcrypt.hash(password, salt);
-        console.log('hashedPassword',hashedPassword);
         const userByEmail = await getUserByEmailDb(email);
-        console.log('userByEmail',userByEmail);
         const userByUsername = await getUserByUsernameDb(username);
-        console.log('userByUsername',userByUsername);
         if (userByEmail) {
           throw new ErrorHandler(401, "email taken already");
         }
@@ -49,7 +43,6 @@ class AuthService {
         if (userByUsername) {
           throw new ErrorHandler(401, "username taken already");
         }
-        console.log('it ok');
         const newUser = await createUserDb({
           ...user,
           password: hashedPassword,
