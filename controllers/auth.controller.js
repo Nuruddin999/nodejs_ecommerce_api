@@ -113,7 +113,7 @@ const initAdmin = async () => {
   const adminUser ={
     email: adminLogin,
     password: adminPassword,
-    fullName: "Admin",
+    fullname: "Admin",
     username: "admin",
     role: ["admin"]
   };
