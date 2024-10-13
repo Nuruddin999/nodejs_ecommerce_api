@@ -1,0 +1,80 @@
+const {
+  Product, ProductFile, Application
+} = require("../models");
+const uploadFile = require("../middlewares/upload");
+
+class ProductController {
+  async create(req, res, next) {
+    try {
+      await uploadFile(req, res);
+      const {
+        name,
+        description,
+        selfPrice,
+        price,
+        type,
+        category,
+        mainThumbUrl,
+        mainThumbType
+      } = req.body;
+      const productData = await Product.create({
+        name,
+        description,
+        selfPrice,
+        price,
+        type,
+        category,
+        mainThumbUrl,
+        mainThumbType
+      });
+      for (const single_file of req.files) {
+        await ProductFile.create({
+          url: `/uploads/${single_file.originalname}`,
+          productId: productData.id,
+          type: single_file.mimetype
+        });
+      }
+      return res.json({ success: "ok" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  getAll = async (page, limit) => {
+    try {
+      console.log("getAll");
+      const offset = page * limit - limit;
+      return await Product.findAndCountAll({
+        limit, offset
+      });
+    } catch (e) {
+
+    }
+  };
+
+  fetchAll = async (req, res, next) => {
+    try {
+      const {page,limit}=req.query
+      const data = await this.getAll(page, limit);
+      console.log("data", data);
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  async deleteProduct(req, res, next) {
+    try {
+      const {id} = req.params;
+      await Product.destroy({where: {id}})
+      return res.json({deleted: 'ok'});
+    } catch (e) {
+      next(e);
+    }
+  }
+
+
+}
+
+
+module.exports = new ProductController();
