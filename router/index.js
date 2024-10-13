@@ -47,5 +47,5 @@ router.post('/smetas-mkrd', authMiddleware, smetaController.updateSmeta);
 router.post('/product', authMiddleware, productController.create);
 router.get('/productsadmn', authMiddleware, productController.fetchAll);
 router.get('/productdel/:id', authMiddleware, productController.deleteProduct)
-
+router.get('/productsadmn/:id', authMiddleware, productController.getOneAdm);
 module.exports = router

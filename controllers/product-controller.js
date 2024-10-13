@@ -1,5 +1,5 @@
 const {
-  Product, ProductFile, Application
+  Product, ProductFile
 } = require("../models");
 const uploadFile = require("../middlewares/upload");
 
@@ -42,7 +42,6 @@ class ProductController {
 
   getAll = async (page, limit) => {
     try {
-      console.log("getAll");
       const offset = page * limit - limit;
       return await Product.findAndCountAll({
         limit, offset
@@ -68,6 +67,31 @@ class ProductController {
       const {id} = req.params;
       await Product.destroy({where: {id}})
       return res.json({deleted: 'ok'});
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getOne(id) {
+    try {
+      return await Product.findOne({
+        where: { id }, include: [
+          {
+            model: ProductFile,
+            separate: true
+          },
+        ]
+      })
+    } catch (e) {
+    }
+  }
+
+  async getOneAdm(req, res, next) {
+    try {
+      const {id} = req.params;
+      const productData = await this.getOne(id)
+
+      return res.json(productData);
     } catch (e) {
       next(e);
     }
