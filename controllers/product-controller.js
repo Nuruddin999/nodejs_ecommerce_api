@@ -72,7 +72,7 @@ class ProductController {
     }
   }
 
-  async getOne(id) {
+   getOne=async(id) =>{
     try {
       return await Product.findOne({
         where: { id }, include: [
@@ -86,7 +86,7 @@ class ProductController {
     }
   }
 
-  async getOneAdm(req, res, next) {
+   getOneAdm=async (req, res, next) =>{
     try {
       const {id} = req.params;
       const productData = await this.getOne(id)
