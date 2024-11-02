@@ -71,7 +71,6 @@ class ProductController {
     try {
       const { page, limit } = req.query
       const data = await this.getAll(page, limit);
-      console.log("data", data);
       return res.json(data);
     } catch (e) {
       next(e);
@@ -82,6 +81,7 @@ class ProductController {
     try {
       const { page, limit } = req.query
       const data = await this.getAllFeatured(page, limit);
+      console.log("data", data);
       return res.json(data);
     } catch (e) {
       next(e);
