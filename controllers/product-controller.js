@@ -27,7 +27,7 @@ class ProductController {
         category,
         mainThumbUrl,
         mainThumbType,
-        isForStartPage
+        isForStartPage: Boolean(isForStartPage)
       });
       for (const single_file of req.files) {
         await ProductFile.create({
