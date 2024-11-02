@@ -51,9 +51,23 @@ class ProductController {
     }
   };
 
+  getAllFeatured = async (page, limit) => {
+    try {
+      const offset = page * limit - limit;
+      const list = await Product.findAndCountAll({
+        where: { isForStartPage: true },
+        limit, offset
+      });
+      const { name, price, mainThumbUrl } = list
+      return { name, price, mainThumbUrl }
+    } catch (e) {
+
+    }
+  };
+
   fetchAll = async (req, res, next) => {
     try {
-      const {page,limit}=req.query
+      const { page, limit } = req.query
       const data = await this.getAll(page, limit);
       console.log("data", data);
       return res.json(data);
@@ -64,15 +78,15 @@ class ProductController {
 
   async deleteProduct(req, res, next) {
     try {
-      const {id} = req.params;
-      await Product.destroy({where: {id}})
-      return res.json({deleted: 'ok'});
+      const { id } = req.params;
+      await Product.destroy({ where: { id } })
+      return res.json({ deleted: 'ok' });
     } catch (e) {
       next(e);
     }
   }
 
-   getOne=async(id) =>{
+  getOne = async (id) => {
     try {
       return await Product.findOne({
         where: { id }, include: [
@@ -86,9 +100,9 @@ class ProductController {
     }
   }
 
-   getOneAdm=async (req, res, next) =>{
+  getOneAdm = async (req, res, next) => {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const productData = await this.getOne(id)
 
       return res.json(productData);

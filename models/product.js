@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.STRING,
     mainThumbUrl: DataTypes.STRING,
     mainThumbType: DataTypes.STRING,
-    description:DataTypes.TEXT
+    description: DataTypes.TEXT,
+    isForStartPage: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Product',
