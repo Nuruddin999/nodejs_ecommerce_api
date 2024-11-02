@@ -60,7 +60,7 @@ class ProductController {
         where: { isForStartPage: true },
         limit, offset
       });
-      const { name, price, mainThumbUrl } = list
+      const { name, price, mainThumbUrl } = list.row
       return { name, price, mainThumbUrl }
     } catch (e) {
 
