@@ -48,5 +48,5 @@ router.post('/product', authMiddleware, productController.create);
 router.get('/productsadmn', authMiddleware, productController.fetchAll);
 router.get('/productdel/:id', authMiddleware, productController.deleteProduct)
 router.get('/productsadmn/:id', authMiddleware, productController.getOneAdm);
-router.get('/productsstart', productController.getAllFeatured);
+router.get('/productsstart', productController.fetchAllForStart);
 module.exports = router

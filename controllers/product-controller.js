@@ -76,6 +76,16 @@ class ProductController {
     }
   };
 
+  fetchAllForStart = async (req, res, next) => {
+    try {
+      const { page, limit } = req.query
+      const data = await this.getAllFeatured(page, limit);
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  };
+
   async deleteProduct(req, res, next) {
     try {
       const { id } = req.params;
