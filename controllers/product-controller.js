@@ -16,7 +16,8 @@ class ProductController {
         category,
         mainThumbUrl,
         mainThumbType,
-        isForStartPage
+        isForStartPage,
+        handle
       } = req.body;
       const productData = await Product.create({
         name,
@@ -29,6 +30,7 @@ class ProductController {
         mainThumbType,
         isForStartPage: Boolean(isForStartPage)
       });
+      console.log('productData', productData)
       for (const single_file of req.files) {
         await ProductFile.create({
           url: `/uploads/${single_file.originalname}`,
