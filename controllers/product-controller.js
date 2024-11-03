@@ -30,6 +30,7 @@ class ProductController {
         mainThumbType,
         isForStartPage: Boolean(isForStartPage)
       });
+      await productData.update({ handle: handle + productData.id })
       console.log('productData', productData)
       for (const single_file of req.files) {
         await ProductFile.create({
