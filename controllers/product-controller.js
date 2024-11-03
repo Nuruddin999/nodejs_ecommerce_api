@@ -60,7 +60,7 @@ class ProductController {
       const offset = page * limit - limit;
       const list = await Product.findAndCountAll({
         where: { isForStartPage: true },
-        attributes: ['name', 'price', 'mainThumbUrl'],
+        attributes: ['name', 'price', 'mainThumbUrl', 'handle'],
         limit, offset
       });
       return list
