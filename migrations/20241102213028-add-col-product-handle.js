@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return Promise.all([
       queryInterface.addColumn('Products', 'handle', {
-        type: Sequelize.DataTypes.String,
+        type: Sequelize.DataTypes.STRING,
         allowNull: true,
       })
     ]);
