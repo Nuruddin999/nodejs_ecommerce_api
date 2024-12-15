@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Token, {
         foreignKey: 'userId',
       })
+      User.hasOne(models.Cart, {
+        foreignKey: 'userId',
+        onDelete:'cascade'
+      })
       User.hasMany(models.Rights, {
         foreignKey: 'userId',
         onDelete:'cascade'

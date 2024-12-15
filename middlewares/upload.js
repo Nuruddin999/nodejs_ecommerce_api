@@ -3,7 +3,7 @@ const multer = require("multer");
 const maxSize = 2 * 3024 * 3024;
 
 let storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: "public/images/",
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },

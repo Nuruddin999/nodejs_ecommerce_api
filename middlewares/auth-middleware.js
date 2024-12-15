@@ -24,3 +24,21 @@ module.exports = function (req, res, next) {
         return next(ApiError.UnauthorizedError());
     }
 };
+let middlewareObject = {};
+
+//a middleware to check if a user is logged in or not
+middlewareObject.isNotLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return next(ApiError.UnauthorizedError());
+  }
+  return next();
+};
+
+middlewareObject.isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  return next(ApiError.UnauthorizedError());
+};
+
+module.exports = middlewareObject;
