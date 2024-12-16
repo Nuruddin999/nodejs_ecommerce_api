@@ -4,26 +4,21 @@ const cookieParser = require('cookie-parser')
 const router = require('./router/index')
 const logger = require("morgan");
 const errorMiddleware = require('./middlewares/error-middleware');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 9000;
 const path = require('path')
+const { createClient }= require('ioredis');
 const session = require("express-session");
-const pgSession = require('connect-pg-simple')(session)
 const passport = require("passport");
-const mongoose = require("mongoose");
-const sessionPool = require('pg').Pool
-const config = require('./config/config');
 const randomString = require("randomstring");
-const sessionDBaccess = new sessionPool({
-  user: config.user,
-  password: config.password,
-  host: config.host,
-  port: config.port,
-  database: config.database,})
+const { RedisStore } = require("connect-redis")
+let redisClient = createClient(6379, '127.0.0.1', {})
+redisClient.on('ready', function() {
+  console.log('redis is running');
+});
 
 const sessionConfig = {
-  store: new pgSession({
-    pool: sessionDBaccess,
-    tableName: 'session'
+  store: new RedisStore({
+  client: redisClient
   }),
   name: 'SID',
   secret: randomString.generate({
@@ -33,8 +28,8 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    sameSite: true,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: false,
     secure: false // ENABLE ONLY ON HTTPS
   }}
 const app = express()
@@ -51,17 +46,6 @@ app.use(session(sessionConfig));
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(async (req, res, next) => {
-  try {
-    res.locals.login = req.isAuthenticated();
-    res.locals.session = req.session;
-    res.locals.currentUser = req.user;
-    next();
-  } catch (error) {
-    console.log(error);
-    res.redirect("/");
-  }
-});
 app.use('/', router);
 app.use(errorMiddleware);
 const start = async () => {

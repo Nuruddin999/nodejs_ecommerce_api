@@ -33,7 +33,7 @@ class ProductController {
       await productData.update({ handle: `${handle}-${productData.id.toString()}` })
       for (const single_file of req.files) {
         await ProductFile.create({
-          url: `/uploads/${single_file.originalname}`,
+          url: `public/images/${single_file.originalname}`,
           productId: productData.id,
           type: single_file.mimetype
         });
