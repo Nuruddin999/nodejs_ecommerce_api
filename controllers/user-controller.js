@@ -60,8 +60,7 @@ class UserController {
 
   async getUsers(req, res, next) {
     try {
-      const users = await userService.getByLetter(req, res, next);
-      return users;
+      return await userService.getByLetter(req, res, next);
     } catch (e) {
       next(e);
     }
@@ -69,8 +68,7 @@ class UserController {
 
   async getAllUsers(req, res, next) {
     try {
-      const users = await userService.getAllUsers(req, res, next);
-      return users;
+      return await userService.getAllUsers(req, res, next);
     } catch (e) {
       next(e);
     }
@@ -78,8 +76,7 @@ class UserController {
 
   async deleteUser(req, res, next) {
     try {
-      const user = await userService.deleteUser(req, res, next);
-      return user;
+      return await userService.deleteUser(req, res, next);
     } catch (e) {
       next(e);
     }
@@ -93,7 +90,7 @@ class UserController {
     }
   }
 
-  async checkIsSuperAdmin(req, res, next) {
+  async checkIsSuperAdmin(req, res) {
     try {
       await userService.checkIsSuperAdmin();
       return res.json({ superAdmin: true });
@@ -114,20 +111,19 @@ class UserController {
 
   async getOne(req, res, next) {
     try {
-      const userData = await userService.getOne(req, res, next);
-      return userData
+      return await userService.getOne(req, res, next);
     } catch (e) {
       next(e);
     }
   }
 
-  async updateRights(req, res, next) {
+  async updateRights(req, res) {
     const { entity, field, value, userId } = req.body
     const result = await userService.updateUserRights(entity, field, value, userId)
     return res.json(result)
   }
 
-  async updatePrimeData(req, res, next) {
+  async updatePrimeData(req, res) {
     const { email, phone, speciality, name } = req.body
     const result = await userService.updateUserPrimaryData(email, speciality, phone, name)
     return res.json(result)

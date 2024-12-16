@@ -30,7 +30,7 @@ class ProductController {
         mainThumbType,
         isForStartPage: Boolean(isForStartPage)
       });
-      await productData.update({ handle: `${handle}-${productData.id.toString()}` })
+      await productData.update({ handle: `${handle}-${productData.id.toString()}` });
       for (const single_file of req.files) {
         await ProductFile.create({
           url: `public/images/${single_file.originalname}`,
@@ -58,12 +58,12 @@ class ProductController {
   getAllFeatured = async (page, limit) => {
     try {
       const offset = page * limit - limit;
-      const list = await Product.findAndCountAll({
+      return  await Product.findAndCountAll({
         where: { isForStartPage: true },
-        attributes: ['name', 'price', 'mainThumbUrl', 'handle'],
+        attributes: ["name", "price", "mainThumbUrl", "handle"],
         limit, offset
       });
-      return list
+
     } catch (e) {
 
     }
@@ -71,7 +71,7 @@ class ProductController {
 
   fetchAll = async (req, res, next) => {
     try {
-      const { page, limit } = req.query
+      const { page, limit } = req.query;
       const data = await this.getAll(page, limit);
       return res.json(data);
     } catch (e) {
@@ -81,7 +81,7 @@ class ProductController {
 
   fetchAllForStart = async (req, res, next) => {
     try {
-      const { page, limit } = req.query
+      const { page, limit } = req.query;
       const data = await this.getAllFeatured(page, limit);
       return res.json(data);
     } catch (e) {
@@ -92,8 +92,8 @@ class ProductController {
   async deleteProduct(req, res, next) {
     try {
       const { id } = req.params;
-      await Product.destroy({ where: { id } })
-      return res.json({ deleted: 'ok' });
+      await Product.destroy({ where: { id } });
+      return res.json({ deleted: "ok" });
     } catch (e) {
       next(e);
     }
@@ -106,23 +106,23 @@ class ProductController {
           {
             model: ProductFile,
             separate: true
-          },
+          }
         ]
-      })
+      });
     } catch (e) {
     }
-  }
+  };
 
   getOneAdm = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const productData = await this.getOne(id)
+      const productData = await this.getOne(id);
 
       return res.json(productData);
     } catch (e) {
       next(e);
     }
-  }
+  };
 
 
 }
