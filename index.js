@@ -29,7 +29,7 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 14,
-    sameSite: false,
+    sameSite: 'none',
     secure: false // ENABLE ONLY ON HTTPS
   }}
 const app = express()
