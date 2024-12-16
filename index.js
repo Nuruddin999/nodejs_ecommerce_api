@@ -30,7 +30,7 @@ const sessionConfig = {
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 14,
     sameSite: 'none',
-    secure: false // ENABLE ONLY ON HTTPS
+    secure: true // ENABLE ONLY ON HTTPS
   }}
 const app = express()
 app.use(logger("dev"));
